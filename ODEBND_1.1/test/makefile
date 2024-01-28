@@ -1,0 +1,43 @@
+# Third-Party Libraries -->> CHANGE ACCORDINGLY <<--
+PATH_MC = /home/bchachua/Programs/Devel/MC++/MC++_1.0
+LIB_MC = 
+INC_MC = -I$(PATH_MC)/include
+
+LIB_GSL = -lgsl -lgslcblas -lm
+INC_GSL = 
+
+PATH_LAPACK = /opt/cpplapack-2010.03.27/
+LIB_LAPACK = -llapack -lblas
+INC_LAPACK = -I$(PATH_LAPACK)/include
+
+PATH_PROFIL = /home/bchachua/Programs/ThirdParty/Profil-2.0.8
+LIB_PROFIL = -L$(PATH_PROFIL)/lib -lProfilPackages -lProfil -lBias -llr
+INC_PROFIL = -I$(PATH_PROFIL)/include
+
+PATH_FILIB = /opt/filib++
+LIB_FILIB = -L$(PATH_FILIB)/lib -lprim
+INC_FILIB = -I$(PATH_FILIB)/include/ -I$(PATH_FILIB)/include/interval
+FLAGS_FILIB = -frounding-math -ffloat-store
+
+# Executable name
+EXE = test
+OBJS = main_AD.o
+
+#####
+
+$(EXE) : $(OBJS)
+	g++ -o $(EXE) $(OBJS) $(LIB_MC) $(LIB_PROFIL) $(LIB_FILIB) $(LIB_GSL) $(LIB_LAPACK)
+       
+main2.o: main2.cpp
+	g++ -c -g -O2 -Wall $(FLAGS_FILIB) -I../src $(INC_MC) $(INC_PROFIL) $(INC_FILIB) $(INC_GSL) $(INC_LAPACK) -o main2.o main2.cpp
+       
+main_AD.o: main_AD.cpp
+	g++ -c -g -O2 -Wall $(FLAGS_FILIB) -I../src $(INC_MC) $(INC_PROFIL) $(INC_FILIB) $(INC_GSL) $(INC_LAPACK) -o main_AD.o main_AD.cpp
+       
+main.o: main.cpp
+	g++ -c -g -O2 -Wall $(FLAGS_FILIB) -I../src $(INC_MC) $(INC_PROFIL) $(INC_FILIB) $(INC_GSL) $(INC_LAPACK) -o main.o main.cpp
+
+#####
+
+clean :
+	rm -f $(EXE) $(OBJS) *.out

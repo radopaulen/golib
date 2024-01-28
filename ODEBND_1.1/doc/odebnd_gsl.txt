@@ -1,0 +1,506 @@
+/*!
+
+@mainpage ODEBND_GSL (version 1.0): Enclosing the Reachable Set of Parametric Nonlinear ODEs using Continuous-Time Set-Propagation Methods
+
+@author Benoit C. Chachuat (b.chachuat@imperial.ac.uk), Radoslav Paulen (Radoslav.Paulen@bci.tu-dortmund.de), Mario Villanueva (mario.villanueva10@imperial.ac.uk), and Boris Houska (bhouska@sjtu.edu.cn)
+@version 1.0
+@date 2012-2013
+
+mc::ODEBND_GSL is a C++ class that computes enclosures of the reachable set of parametric nonlinear ordinary differential equations (ODEs) of the form
+\f[\forall t\in[t_0,t_{\rm f}] \quad \dot{x}(t)=f(t, x(t),p) \quad\text{with}\quad x(t_0)=h(p), \f]
+where \f$p\in P\subset\mathbb{R}^{n_p}\f$ denote the parameter vector; \f$x(t)\in\mathbb{R}^{n_x}\f$, the state vector at a given time \f$t\f$; \f$f: \mathbb{R}^{n_x}\times\mathbb{R}^{n_p}\to\mathbb{R}^{n_x}\f$, the right-hand side function; and \f$h: \mathbb{R}^{n_p}\to\mathbb{R}^{n_x}\f$, the initial value function. It is assumed that \f$f\f$ and \f$h\f$ are factorable and sufficiently many times continuously differentiable.
+
+The algorithms in mc::ODEBND_GSL rely on continuous-time set-propagation methods, whereby a set of auxiliary ODEs is constructed whose solutions provide the desired enclosures. Two different approaches are implemented, which enable the propagation of convex enclosures and nonconvex enclosures, based on interval arithmetic and Taylor model arithmetic, respectively. In either approaches, various contractors can be used, including:
+- differential inequalities contractor [Lakshmikantham & Leela, 1969; Walter, 1970; Harrison, 1977]
+- parallelepiped contractor
+- ellipsoidal contractor [Houska <I>et al.</I>, 2012]
+.
+Combination of these contractors with Taylor models are described, for instance, in [Chachuat & Villanueva, 2012; Villanueva <I>et al.</I>, 2013a]. Moreover, the construction and convergence analysis of these methods is described in [Villanueva <i>et al.</I>, 2013b], whereby a generalized differential inequality is introduced whose solutions yield such support functions for a convex enclosure of the reachable set. In particular, it is shown that existing continuous-time propagation techniques based on standard differential inequalities or ellipsoidal set propagation techniques can be recovered as special cases of this generalized differential inequality, and a way of extending this approach for the construction of nonconvex enclosures is also described based on Taylor models with convex remainder bounds.
+
+
+\section sec_ODEBND_GSL_use How Do I Obtain, Install and Run mc::ODEBND_GSL?
+
+mc::ODEBND_GSL is released as open source code under the <A href="http://www.eclipse.org/legal/epl-v10.html">Eclipse Public License (EPL)</A>.
+
+mc::ODEBND_GSL uses a number of third-party libraries. The following are <B>mandatory</B> to run mc::ODEBND_GSL:
+- Library <A href="http://www3.imperial.ac.uk/environmentenergyoptimisation/software">MC++</A> (version 1.0), computing interval bounds, convex/concave bounds and Taylor models for factorable functions
+- Library <A href="http://www.fadbad.com/fadbad.html">FADBAD++</A> (version 2.1), implementing the forward, backward and Taylor methods of automatic differentiation (AD)
+- Integrator <tt>gsl_odeiv2</tt> in the <A href="https://www.gnu.org/software/gsl/manual/html_node/Ordinary-Differential-Equations.html">GNU Scientific Library (GSL, version 1.15)</A> in order to solve the auxiliary ODEs
+- Libraries <A href="http://www.netlib.org/blas/">BLAS</A> and <A href="http://www.netlib.org/lapack/">LAPACK</A> for linear algebra computations
+.
+<B>Optional</B> libraries include:
+- Libraries
+<A href="http://www.ti3.tu-harburg.de/Software/PROFILEnglisch.html">PROFIL</A> and/or <A href="http://www.math.uni-wuppertal.de/~xsc/software/filib.html">FILIB++</A>, implementing verified interval arithmetic
+.
+
+On distribution, the main directory should contain the files <TT>AUTHORS</TT>,<TT>CHANGELOG</TT>, <TT>INSTALL</TT>, <TT>LICENSE</TT> and <TT>README</TT>, as well as 3 subdirectories: <tt>src</tt>, <tt>test</tt>, and <tt>doc</tt>. The library comes with a Doxygen documentation, which can be accessed by opening the file <tt>doc/html/index.html</tt> with any html interpreter. Also, a test example is provided in the <tt>test</tt> subdirectory. Note that mc::ODEBND_GSL consists of header files only, which can be found in the <tt>src</tt> directory.
+
+Running mc::ODEBND_GSL first requires that you alter the <TT>makefile</TT> in order to point to the third-party libraries. A test example is provided in the subdirectory <TT>test</TT>. Change to this directory and type the following from the command line:
+
+\verbatim
+  $ make
+\endverbatim
+
+This creates the executable file <TT>test</TT>, which can be executed by doing:
+
+\verbatim
+  $ ./test
+\endverbatim
+
+The following output should be produced:
+
+\verbatim
+
+COMPUTE APPROXIMATE ENCLOSURE OF REACHABLE SET:
+
+ @t = 0.0000e+00 :
+ x[0] = [  1.20000e+00 :  1.20000e+00 ]
+ x[1] = [  1.10000e+00 :  1.10000e+00 ]
+ @t = 2.0000e+00 :
+ x[0] = [  1.21919e+00 :  1.22654e+00 ]
+ x[1] = [  1.00707e+00 :  1.05317e+00 ]
+
+COMPUTE INTERVAL ENCLOSURE OF REACHABLE SET:
+
+ @t = 0.0000e+00 :
+ x[0] = [  1.20000e+00 :  1.20000e+00 ]
+ x[1] = [  1.10000e+00 :  1.10000e+00 ]
+ @t = 2.0000e+00 :
+ x[0] = [  1.21989e+00 :  1.22724e+00 ]
+ x[1] = [  1.00701e+00 :  1.05316e+00 ]
+ No EVALATIONS   RHS: 411   JAC: 0
+ CPU TIME (SEC)     0.00477
+
+ @t = 0.0000e+00 :
+ d[0] = 0.0000e+00
+ d[1] = 0.0000e+00
+ @t = 2.0000e+00 :
+ d[0] = 7.0361e-04
+ d[1] = 5.8547e-05
+
+COMPUTE TAYLOR MODEL ENCLOSURE OF REACHABLE SET:
+
+ @t = 0.0000e+00 :
+ x[0] = 
+    a0   =  1.20000e+00
+
+  Order:        Bound:
+       R        [  0.00000e+00 :  0.00000e+00 ]
+
+  TM Bound:          [  1.20000e+00 :  1.20000e+00 ]
+
+ x[1] = 
+    a0   =  1.10000e+00
+
+  Order:        Bound:
+       R        [  0.00000e+00 :  0.00000e+00 ]
+
+  TM Bound:          [  1.10000e+00 :  1.10000e+00 ]
+
+ @t = 2.0000e+00 :
+ x[0] = 
+    a0   =  1.22427e+00        0    B0   = [  1.00000e+00 :  1.00000e+00 ]
+    a1   = -7.35819e-02        1    B1   = [ -5.00000e-02 :  5.00000e-02 ]
+    a2   = -5.63430e-01        2    B2   = [  0.00000e+00 :  2.50000e-03 ]
+    a3   =  1.12415e-02        3    B3   = [ -1.25000e-04 :  1.25000e-04 ]
+    a4   =  3.79181e-01        4    B4   = [  0.00000e+00 :  6.25000e-06 ]
+
+  Order:        Bound:
+       0        [  1.22427e+00 :  1.22427e+00 ]
+       1        [ -3.67909e-03 :  3.67909e-03 ]
+       2        [ -1.40858e-03 :  0.00000e+00 ]
+       3        [ -1.40518e-06 :  1.40518e-06 ]
+       4        [  0.00000e+00 :  2.36988e-06 ]
+       R        [ -1.53111e-07 :  1.53111e-07 ]
+
+  TM Bounder:1
+  TM Bound:          [  1.21918e+00 :  1.22655e+00 ]
+
+ x[1] = 
+    a0   =  1.03005e+00        0    B0   = [  1.00000e+00 :  1.00000e+00 ]
+    a1   =  4.62023e-01        1    B1   = [ -5.00000e-02 :  5.00000e-02 ]
+    a2   =  2.78256e-02        2    B2   = [  0.00000e+00 :  2.50000e-03 ]
+    a3   = -4.05412e-01        3    B3   = [ -1.25000e-04 :  1.25000e-04 ]
+    a4   = -1.70854e-01        4    B4   = [  0.00000e+00 :  6.25000e-06 ]
+
+  Order:        Bound:
+       0        [  1.03005e+00 :  1.03005e+00 ]
+       1        [ -2.31011e-02 :  2.31011e-02 ]
+       2        [  0.00000e+00 :  6.95640e-05 ]
+       3        [ -5.06765e-05 :  5.06765e-05 ]
+       4        [ -1.06784e-06 :  0.00000e+00 ]
+       R        [ -1.52531e-07 :  1.52531e-07 ]
+
+  TM Bounder:1
+  TM Bound:          [  1.00697e+00 :  1.05327e+00 ]
+
+ No EVALATIONS   RHS: 471   JAC: 0
+ CPU TIME (SEC)     0.00764
+
+ @t = 0.0000e+00 :
+ d[0] = 0.0000e+00   r[0] = 0.0000e+00
+ d[1] = 0.0000e+00   r[1] = 0.0000e+00
+ @t = 2.0000e+00 :
+ d[0] = 5.4006e-06   r[0] = 1.7543e-07
+ d[1] = 1.0253e-04   r[1] = 1.0585e-07
+
+\endverbatim
+
+We note that mc::ODEBND_GSL has only been tested under Linux/Ubuntu using the GCC compiler.
+
+
+\section sec_ODEBND_GSL_setup How Do I Set up my ODE Problem in mc::ODEBND_GSL?
+
+The class mc::ODEBND_GSL is templated in two variable types T and IVP:
+- T is the class that implements the underlying interval arithmetic. Both verified and non-verified types are currently supported. For verified interval computations [optional], the libraries <A href="http://www.ti3.tu-harburg.de/Software/PROFILEnglisch.html">PROFIL</A> and <A href="http://www.math.uni-wuppertal.de/~xsc/software/filib.html">FILIB++</A> are supported; the non-verified interval type mc::Interval in <A href="http://www3.imperial.ac.uk/environmentenergyoptimisation/software">MC++</A> can also be used. More generally, any interval type can be used provided that the templated structure mc::Op is instantiated for that type -- see the header files <tt>mcprofil.h</tt> and <tt>mcfilib.h</tt> for examples of such instantiations.
+- IVP is the class that defines the initial value problem in ODEs to be bounded. An example is detailed next.
+.
+
+Suppose we want to bound the reachable set of the following Lotka-Volterra system:
+\f[\left\{\begin{array}{rl}
+\dot{x}_1(t)=px_1(t)\,[1-x_2(t)] & \quad \text{with}\quad x_1(0)=1.2\\
+\dot{x}_2(t)=px_2(t)\,[x_1(t)-1] & \quad \text{with}\quad x_2(0)=1.1,
+\end{array}\right.\f]
+that depends on the (scalar) parameter \f$p\f$. The following class, derived from mc::ODESTRUCT, is defined:
+
+\code
+      #include "odebnd_gsl.hpp"
+      
+      const unsigned int NP = 1;  // Parameter dimension
+      const unsigned int NX = 2;  // State dimension
+
+      class IVP : public mc::ODESTRUCT
+      {
+      public:
+        IVP(): mc::ODESTRUCT( NP, NX )
+          {}
+
+        template <typename U>
+        U RHS                     // Right-hand side function
+          ( const unsigned int ix, const U*p, const U*x, const double t, const unsigned int is )
+          {
+            switch( ix ){
+              case 0: return p[0]*x[0]*(1.-x[1]);
+              case 1: return p[0]*x[1]*(x[0]-1.);
+              default: throw std::runtime_error("invalid size");
+            }
+          }
+
+        template <typename U>
+        U IC                      // Initial value function
+          ( const unsigned int ix, const U*p )
+          {
+            switch( ix ){
+              case 0: return 1.2;
+              case 1: return 1.1;
+              default: throw std::runtime_error("invalid size");
+            }
+          }
+      };
+\endcode
+
+
+\section sec_ODEBND_GSL_IA How Do I Compute an Interval Enclosure of the Reachable Set of my ODE Problem?
+
+Suppose we want to compute an interval enclosure of the reachable set of the Lotka-Volterra system defined previously, with \f$p\in [2.95,3.05]\f$ and final time \f$t_{\rm f}=2\f$.
+
+We start by defining the parameter set \f$P\f$, initial time \f$t_0\f$, and final time \f$t_{\rm f}\f$:
+
+\code
+      #include "interval.hpp"
+      typedef mc::Interval I;
+      I Ip[NP];
+      Ip[0] = I(2.95,3.05);
+      double t0 = 0., tf = 2.;
+\endcode
+
+An mc::ODEBND_GSL object is then defined as:
+
+\code
+      mc::ODEBND_GSL<I,IVP> LV;
+\endcode
+
+For simplicity, we have defined the template type T of mc::ODEBND_GSL as 
+the default interval type mc::Interval in <A href="http://www3.imperial.ac.uk/environmentenergyoptimisation/software">MC++</A> here.
+
+At this stage, <B>options</B> can be specified via the mc::ODEBND_GSL::options public member; see \ref sec_ODEBND_GSL_opt for a complete list of options. For instance, display can be enabled and intermediate results can be recorded by setting the DISPLAY and RESRECORD options as:
+
+\code
+      LV.options.DISPLAY = 1;
+      LV.options.RESRECORD = true;
+\endcode
+
+An <B>interval enclosure of the reachable set</B> at \f$t_{\rm f}\f$ can now be computed by invoking the method mc::ODEBND_GSL::bounds as follows:
+
+\code
+      I Ix0[NX], Ixf[NX];
+      I* Ixk[2] = {Ix0, Ixf};
+      double tk[2] = {t0, tf};
+      LV.bounds( 1, tk, Ip, Ixk );
+\endcode
+
+Note that <B>enclosures at intermediate times</B> can also be computed by modifying the arrays <A>tk</A> and <A>Xk</A> accordingly.
+
+The following result is displayed during the computations:
+
+\verbatim
+ @t = 0.0000e+00 :
+ x[0] = [  1.20000e+00 :  1.20000e+00 ]
+ x[1] = [  1.10000e+00 :  1.10000e+00 ]
+ @t = 2.0000e+00 :
+ x[0] = [  1.21989e+00 :  1.22724e+00 ]
+ x[1] = [  1.00701e+00 :  1.05316e+00 ]
+ No EVALATIONS   RHS: 411   JAC: 0
+ CPU TIME (SEC)     0.01377
+\endverbatim
+
+With the default options, this enclosure was generated using an ellipsoidal contractor with wrapping mitigation order of 2 and the integration method is an explicit embedded Runge-Kutta-Fehlberg (4,5) method with both relative and absolute tolerances set to 1e-6.
+
+Results can be <B>exported to a file</B> by using the method mc::ODEBND_GSL::record after an integration was completed:
+
+\code
+      #include <fstream>
+      std::ofstream ofile( "LV.out", std::ios_base::out );
+      LV.record( ofile );
+\endcode
+
+This creates (or updates) the file <TT>LV.out</TT> in the current directory as follows -- This requires the option RESRECORD to be set to `true' before calling mc::ODEBND_GSL::bounds:
+
+\verbatim
+   0.00000e+00   1.20000e+00   1.20000e+00   1.10000e+00   1.10000e+00
+   2.00000e+00   1.21989e+00   1.22724e+00   1.00701e+00   1.05316e+00
+\endverbatim
+
+An <B>approximation of the actual reachable set</B> can also be computed by invoking the method mc::ODEBND_GSL::bounds with the following alternative interface:
+
+\code
+      const unsigned int NSAMP = 100;  // Number of sample points
+      LV.bounds( 1, tk, Ip, Ixk, NSAMP );
+\endcode
+
+This method simply evaluates the ODEs by sampling parameter set at <a>NSAMP</a> equally spaced points, and keeping whichever response is minimal or maximal. The following result is displayed in this case -- which appears quite close to the computed enclosure:
+
+\verbatim
+ @t = 0.0000e+00 :
+ x[0] = [  1.20000e+00 :  1.20000e+00 ]
+ x[1] = [  1.10000e+00 :  1.10000e+00 ]
+ @t = 2.0000e+00 :
+ x[0] = [  1.21919e+00 :  1.22654e+00 ]
+ x[1] = [  1.00707e+00 :  1.05317e+00 ]
+\endverbatim
+
+Note that this brute force approach quickly becomes computationally intractable when the ODE problem contains more than just a few parameters, especially for a large number of sample points for each parameter.
+
+Similarly, an <B>estimate of the Hausdorff distance</B> between the computed enclosure and the actual reachable set -- after projection onto each variable -- can be computed by using the method mc::ODEBND_GSL::hausdorff as follows:
+\code
+      double Hx0[NX], Hxf[NX];
+      double* Hxk[2] = {Hx0, Hxf};
+      LV.hausdorff( 1, tk, Ip, Hxk, NSAMP );
+\endcode
+
+The following result is displayed after the computations:
+
+\verbatim
+ @t = 0.0000e+00 :
+ d[0] = 0.0000e+00
+ d[1] = 0.0000e+00
+ @t = 2.0000e+00 :
+ d[0] = 7.0361e-04
+ d[1] = 5.8547e-05
+\endverbatim
+
+In particular, such estimates of the Hausdorff metric are useful to assess the convergence rate of the bounding techniques.
+
+
+\section sec_ODEBND_GSL_TM How Do I Compute a Taylor Model Enclosure of the Reachable Set of my ODE Problem?
+
+We now consider computing a 4th-order Taylor model enclosure of the reachable set of the same Lotka-Volterra system.
+
+A Taylor model of the parameter set \f$P\f$ is first defined as, 
+\code
+      typedef mc::TModel<I> TM;
+      typedef mc::TVar<I> TV;
+
+      const unsigned int NTM = 4; // Order of Taylor model
+      TM TMenv( NP, NTM );        // Taylor model environment
+      TV TMp[NP];
+      TMp[0] = TV( &TMenv, 0, I(2.95,3.05) );
+\endcode
+
+The desired Taylor model enclosure is computed exactly as previously -- the method mc::ODEBND_GSL::bounds being overloaded for Taylor model type:
+
+\code
+      TV TMx0[NX], TMxf[NX];
+      TV* TMxk[2] = {TMx0, TMxf};
+      LV.bounds( 1, tk, TMp, TMxk );
+\endcode
+
+The following result is displayed:
+
+\verbatim
+ @t = 0.0000e+00 :
+ x[0] = 
+    a0   =  1.20000e+00
+
+  Order:        Bound:
+       R        [  0.00000e+00 :  0.00000e+00 ]
+
+  TM Bound:          [  1.20000e+00 :  1.20000e+00 ]
+
+ x[1] = 
+    a0   =  1.10000e+00
+
+  Order:        Bound:
+       R        [  0.00000e+00 :  0.00000e+00 ]
+
+  TM Bound:          [  1.10000e+00 :  1.10000e+00 ]
+
+ @t = 2.0000e+00 :
+ x[0] = 
+    a0   =  1.22427e+00        0    B0   = [  1.00000e+00 :  1.00000e+00 ]
+    a1   = -7.35819e-02        1    B1   = [ -5.00000e-02 :  5.00000e-02 ]
+    a2   = -5.63430e-01        2    B2   = [  0.00000e+00 :  2.50000e-03 ]
+    a3   =  1.12415e-02        3    B3   = [ -1.25000e-04 :  1.25000e-04 ]
+    a4   =  3.79181e-01        4    B4   = [  0.00000e+00 :  6.25000e-06 ]
+
+  Order:        Bound:
+       0        [  1.22427e+00 :  1.22427e+00 ]
+       1        [ -3.67909e-03 :  3.67909e-03 ]
+       2        [ -1.40858e-03 :  0.00000e+00 ]
+       3        [ -1.40519e-06 :  1.40519e-06 ]
+       4        [  0.00000e+00 :  2.36988e-06 ]
+       R        [ -1.53112e-07 :  1.53112e-07 ]
+
+  TM Bounder:1
+  TM Bound:          [  1.21918e+00 :  1.22655e+00 ]
+
+ x[1] = 
+    a0   =  1.03005e+00        0    B0   = [  1.00000e+00 :  1.00000e+00 ]
+    a1   =  4.62023e-01        1    B1   = [ -5.00000e-02 :  5.00000e-02 ]
+    a2   =  2.78255e-02        2    B2   = [  0.00000e+00 :  2.50000e-03 ]
+    a3   = -4.05412e-01        3    B3   = [ -1.25000e-04 :  1.25000e-04 ]
+    a4   = -1.70854e-01        4    B4   = [  0.00000e+00 :  6.25000e-06 ]
+
+  Order:        Bound:
+       0        [  1.03005e+00 :  1.03005e+00 ]
+       1        [ -2.31011e-02 :  2.31011e-02 ]
+       2        [  0.00000e+00 :  6.95638e-05 ]
+       3        [ -5.06765e-05 :  5.06765e-05 ]
+       4        [ -1.06784e-06 :  0.00000e+00 ]
+       R        [ -1.52469e-07 :  1.52469e-07 ]
+
+  TM Bounder:1
+  TM Bound:          [  1.00697e+00 :  1.05327e+00 ]
+
+ No EVALATIONS   RHS: 277   JAC: 0
+ CPU TIME (SEC)     0.01972
+\endverbatim
+
+An <B>estimate of the Hausdorff distances</B> between the bounds derived from the Taylor model enclosure  and the actual reachable set and between the Taylor model remainder bound and the actual range of the remainder function -- after projection onto each variable -- can be computed by using the method mc::ODEBND_GSL::hausdorff as follows:
+\code
+      double Hx0[NX], Hxf[NX] Rx0[NX], Rxf[NX];
+      double* Hxk[2] = {Hx0, Hxf};
+      double* Rxk[2] = {Rx0, Rxf};
+      LV.hausdorff( 1, tk, TMp, Hxk, Rxk, NSAMP );
+\endcode
+
+The following result is displayed after the computations:
+
+\verbatim
+ @t = 0.0000e+00 :
+ d[0] = 0.0000e+00   r[0] = 0.0000e+00
+ d[1] = 0.0000e+00   r[1] = 0.0000e+00
+ @t = 2.0000e+00 :
+ d[0] = 5.3533e-06   r[0] = 1.3315e-07
+ d[1] = 1.0252e-04   r[1] = 1.1046e-07
+\endverbatim
+
+Note, in particular, that the Hausdorff distances between the bounds derived from the Taylor model enclosure and the actual range of the remainder function is less than the actual Taylor model remainder bound.
+
+
+\section sec_ODEBND_GSL_opt How Are the Options Set in mc::ODEBND_GSL?
+
+The options are defined in the structure mc::ODEBND_GSL::Options. Current options are as follows:
+
+<TABLE border="1">
+<CAPTION><EM>Options in mc::ODEBND_GSL::Options: name, type and
+description</EM></CAPTION>
+     <TR><TH><b>Name</b>  <TD><b>Type</b><TD><b>Default</b>
+         <TD><b>Description</b>
+     <TR><TH><tt>INTMETH</tt> <TD><tt>mc::ODEBND_GSL::Options::INTEGRATION_METHOD</tt> <TD>mc::ODEBND_GSL::Options::RKF45
+         <TD>Numerical integration method
+     <TR><TH><tt>WRAPMIT</tt> <TD><tt>mc::ODEBND_GSL::Options::WRAPPING_STRATEGY</tt> <TD>mc::ODEBND_GSL::Options::ELLIPS
+         <TD>Wrapping mitigation strategy
+     <TR><TH><tt>ORDMIT</tt> <TD><tt>unsigned int</tt> <TD>2
+         <TD>Order of nonlinearity bounder in ellipsoidal contractor
+     <TR><TH><tt>H0</tt> <TD><tt>double</tt> <TD>1e-2
+         <TD>Initial step-size
+     <TR><TH><tt>HMIN</tt> <TD><tt>double</tt> <TD>0e0 (unrestricted)
+         <TD>Minimum step-size
+     <TR><TH><tt>NMAX</tt> <TD><tt>unsigned int</tt> <TD>0 (unlimited)
+         <TD>Maximum number of steps in a time stage
+     <TR><TH><tt>ATOL</tt> <TD><tt>double</tt> <TD>1e-6
+         <TD>Absolute tolerance for <TT>gsl_odeiv2</TT>
+     <TR><TH><tt>RTOL</tt> <TD><tt>double</tt> <TD>1e-6
+         <TD>Relative tolerance for <TT>gsl_odeiv2</TT>
+     <TR><TH><tt>QTOL</tt> <TD><tt>double</tt> <TD>mc::machprec()
+         <TD>Tolerance when dividing by trace of shape matrix in ellipsoidal bounds
+     <TR><TH><tt>DISPLAY</tt> <TD><tt>int</tt> <TD>0 (no display)
+         <TD>Display option
+     <TR><TH><tt>RESRECORDY</tt> <TD><tt>bool</tt> <TD>false
+         <TD>Keep track of intermediate results
+</TABLE>
+
+The mc::ODEBND_GSL class has a public (non-static) member called mc::ODEBND_GSL::options that can be used to set/modify the options; e.g.,
+
+\code
+      mc::ODEBND_GSL<T,IVP> LV;
+      LV.options.RTOL = LV.options.ATOL = 1e-6;
+      LV.options.INTMETH = mc::ODEBND_GSL<T,IVP>::Options::RK8PD;
+      LV.options.WRAPMIT = mc::ODEBND_GSL<T,IVP>::Options::DINEQ;
+\endcode
+
+Remarks:
+
+Not all integration methods in the enumeration mc::ODEBND_GSL::Options::INTEGRATION_METHOD can be used with all methods. For instance, the multistep methods mc::ODEBND_GSL::Options::MSADAMS and  mc::ODEBND_GSL::Options::MSBDF only work for classical integration, not reachable set enclosures.
+
+The following wrapping mitigation strategies are currently implemented in the enumeration mc::ODEBND_GSL::Options::WRAPPING_STRATEGY:
+- mc::ODEBND_GSL::Options::NONE       No wrapping mitigation
+- mc::ODEBND_GSL::Options::DINEQ      Differential inequality contractor
+- mc::ODEBND_GSL::Options::LINTRANS   Linear preconditioning
+- mc::ODEBND_GSL::Options::DITRANS    Differential inequality with linear preconditioning
+- mc::ODEBND_GSL::Options::ELLIPS     Ellipsoidal contractor with linear preconditioning
+.
+All five strategies are applicable for interval and Taylor model bounding.
+
+\section sec_ODEBND_GSL_err What Errors Can I Encounter with mc::ODEBND_GSL?
+
+Errors are managed based on the exception handling mechanism of the C++ language. Each time an error is encountered, a class object ODEBND_GSL::Exceptions is thrown, which contains the type of error. It is the user's responsibility to test whether an exception was thrown during the integration of parametric ODEs, and then make the appropriate changes. Should an exception be thrown and not caught by the calling program, the execution will stop.
+
+Possible errors encountered during the computation of bounds on the solutions of parametric ODEs are:
+
+<TABLE border="1">
+<CAPTION><EM>Errors during propagation of enclosures for parametric ODEs</EM></CAPTION>
+     <TR><TH><b>Number</b> <TD><b>Description</b>
+     <TR><TH><tt>-33</tt> <TD>Error due to calling a feature not yet implemented
+</TABLE>
+
+Moreover, exceptions may be thrown by the embedded class T itself or by third-party programs.
+
+\section sec_ODEBND_GSL_refs References
+
+Chachuat, B. and M.E. Villanueva, <A href="http://www.sciencedirect.com/science/article/pii/B9780444595201501202">"Bounding the solutions of parametric ODEs: When Taylor models meet differential inequalities"</A>, <I>Proceedings of the 22nd European Conference on Computer Aided Process Engineering (ESCAPE 22)</I>, I.D. Bogle and M. Fairweather (Eds), 2012
+
+Harrison, G. W., "Dynamic Models with Uncertain Parameters", <I>Proceedings of the 1st International Conference on Mathematical Modeling</I>, X. Avula (Ed), vol. 1, pp. 295-304, 1977
+
+Houska, B., F. Logist, J. Van Impe, and M. Diehl, <A href="http://www.sciencedirect.com/science/article/pii/S095915241200073X">"Robust optimization of nonlinear dynamic systems with application to a jacketed tubular reactor"</A>, <I>Journal of Process Control</I>, <B>22</B>(6):1152-1160, 2012
+
+Lakshmikantham, V., S. Leela, <I><A href="http://books.google.co.uk/books/about/Differential_and_integral_inequalities_t.html?id=_sZ_SlLHtiQC&redir_esc=y">"Differential and Integral Inequalities, Theory and Applications: Volume I, Ordinary Differential Equations"</A></I>, Academic Press, 1969
+
+Villanueva, M.E., B. Houska, and B. Chachuat, <A href="http://link.springer.com/journal/10898">"Unified framework for the propagation of continuous-time enclosures for parametric nonlinear ODEs"</A>, <I>Journal of Global Optimization</I>, <B>submitted</B>, 2013
+
+Villanueva, M.E., R. Paulen, B. Houska, and B. Chachuat, <A href="http://www.sciencedirect.com">"Enclosing the reachable set of parametric ODEs using Taylor models and ellipsoidal calculus"</A>, <I>Proceedings of the 23rd European Conference on Computer Aided Process Engineering (ESCAPE 23)</I>, A. Kraslawski and I. Turunen (Eds), 2013
+
+Walter, W., <I><A href="http://books.google.co.uk/books/about/Differential_and_integral_inequalities.html?id=DU8fAQAAIAAJ&redir_esc=y">"Differential and Integral Inequalities"</A></I>, Springer-Verlag, Berlin, 1970
+
+*/

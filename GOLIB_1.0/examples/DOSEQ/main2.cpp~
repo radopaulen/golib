@@ -1,0 +1,111 @@
+#include <fstream>
+#include <iomanip>
+//#include "mccvodes.hpp"
+#include "doseq.hpp"
+
+////////////////////////////////////////////////////////////////////////
+
+const unsigned int NS = 1;
+const unsigned int NP = NS+1;
+const unsigned int NX = 3;
+const unsigned int NC = 1;
+
+class DYNOPT : public virtual mc::DOSTRUCT
+{
+public:
+  DYNOPT()
+    : mc::DOSTRUCT( NP, NX, NC )
+    {}
+
+  template <typename TX, typename TP>
+  TX RHS
+    ( const unsigned int ix, const TP*p, const TX*x, const unsigned int is )
+    {
+      assert( ix < nx() );
+      TX u = ((is+1.)-x[2]*NS)*p[is] + (x[2]*NS-is)*p[is+1];
+      //TX u = ((is+1.)/(double)NS-x[2])*p[is] + (x[2]-(double)is/(double)NS)*p[is+1];
+      switch( ix ){
+        case 0: return u-x[0];
+        case 1: return 0.5*u*u;
+        case 2: return 1.;
+        default: throw std::runtime_error("invalid size");
+      }
+    }
+
+  template <typename T>
+  T IC
+    ( const unsigned int ix, const T*p )
+    {
+      assert( ix < nx() );
+      switch( ix ){
+        case 0: return 1.;
+        case 1: return 0.;
+        case 2: return 0.;
+        default: throw std::runtime_error("invalid size");
+      }
+    }
+
+  template <typename T>
+  std::pair<T,t_OBJ> OBJ
+    ( const T*p, T* const*xk, const unsigned int ns )
+    {
+      return std::make_pair( xk[ns][1], MIN );
+    }
+
+  template <typename T>
+  std::pair<T,t_CTR> CTR
+    ( const unsigned int ic, const T*p, T* const*xk, const unsigned int ns )
+    {
+      switch( ic ){
+        case 0: return std::make_pair( xk[ns][0]-0., EQ );
+        default: throw std::runtime_error("invalid size");
+      }
+    }
+};
+
+////////////////////////////////////////////////////////////////////////
+int main()
+////////////////////////////////////////////////////////////////////////
+{  
+  double p0[NP], tk[NS+1];
+  std::pair<double,double> P[NP];
+  tk[0] = 0.;
+  for( unsigned int is=0; is<NS; is++ )
+    tk[1+is] = tk[is]+1./(double)NS;
+  for( unsigned int ip=0; ip<NP; ip++ ){
+    P[ip]  = std::make_pair( -5., 5. );
+    p0[ip] = 0.;
+  }
+  
+  Ipopt::SmartPtr< mc::DOSEQ<DYNOPT> > pDO = new mc::DOSEQ<DYNOPT>();
+
+  pDO->options.DISPLAY  = 5;
+  pDO->options.MAXITER  = 1000;
+  pDO->options.CVTOL    = 1e-9;
+  pDO->options.GRADIENT = mc::DOSEQ<DYNOPT>::Options::FORWARD;
+  pDO->options.SPARSE   = false;//true;
+  pDO->options.HESSIAN  = mc::DOSEQ<DYNOPT>::Options::LBFGS;
+
+  pDO->CVODES<DYNOPT>::options.DISPLAY = 0;
+  pDO->CVODES<DYNOPT>::options.ASACHKPT = 4000;
+  pDO->CVODES<DYNOPT>::options.FSAERR = true;
+  pDO->CVODES<DYNOPT>::options.HESSFORMAT = mc::CVODES<DYNOPT>::Options::HESSLOWER;
+  pDO->CVODES<DYNOPT>::options.FDATOL =
+  pDO->CVODES<DYNOPT>::options.FDRTOL = 1e-4;
+  pDO->CVODES<DYNOPT>::options.FDCEN  = true;
+  pDO->CVODES<DYNOPT>::options.RELTOL =
+  pDO->CVODES<DYNOPT>::options.ABSTOL = 1e-9;
+
+  Ipopt::ApplicationReturnStatus status = pDO->solve( NS, tk, P, p0 );
+
+//  if( status == Ipopt::Solve_Succeeded ){
+    std::cout << std::scientific << std::setprecision(7);
+    std::cout << "DO (LOCAL) SOLUTION: " << std::endl;
+    std::cout << "  f* = " << pDO->solution().f << std::endl;
+    for( unsigned int ip=0; ip<NP; ip++ )
+      std::cout << "  p*(" << ip << ") = " << pDO->solution().p[ip]
+                << std::endl;
+//  }
+
+  return 0;
+}

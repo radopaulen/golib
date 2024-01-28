@@ -1,0 +1,6 @@
+This directory contains the C++ implementation of the parametric
+ODE bouding solver ODEBND_GSL.
+
+For more information, see
+
+doc/html/index.html

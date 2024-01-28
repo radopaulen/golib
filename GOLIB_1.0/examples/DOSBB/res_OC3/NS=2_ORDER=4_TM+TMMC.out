@@ -1,0 +1,81 @@
+ODE BOUNDER: TM   ORDER: 4  TM BOUNDER: LSB   RTOL=0.001  ATOL=0.001
+ INDEX STACK        RELAX         INC           LBD           UBD         ACTION      CUMUL TIME
+
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit http://projects.coin-or.org/Ipopt
+******************************************************************************
+
+     1     1 -1.000000e+20  1.000000e+20 -8.038018e+01  3.517573e-01      BRANCH 0  2.400000e-01
+     2     2 -8.038018e+01  3.517573e-01 -4.541831e+01  3.517573e-01      BRANCH 1  2.800000e-01
+     3     3 -8.038018e+01  3.517573e-01 -4.474006e+01  3.517573e-01      BRANCH 1  3.100000e-01
+     4     4 -4.541831e+01  3.517573e-01 -1.323355e+01  2.870609e-01      BRANCH 0  3.500000e-01
+     5     5 -4.541831e+01  2.870609e-01 -7.500538e+00  3.517573e-01      BRANCH 1  4.100000e-01
+     6     6 -4.474006e+01  2.870609e-01 -4.111260e+00  3.517573e-01      BRANCH 1  6.100000e-01
+     7     7 -4.474006e+01  2.870609e-01 -1.794489e+01  3.517573e-01      BRANCH 1  6.600000e-01
+     8     8 -1.794489e+01  2.870609e-01  2.428149e-01  3.535536e-01      BRANCH 1  7.300000e-01
+     9     9 -1.794489e+01  2.870609e-01    INFEASIBLE             -      FATHOMED  7.600000e-01
+    10     8 -1.323355e+01  2.870609e-01    INFEASIBLE             -      FATHOMED  8.200000e-01
+    11     7 -1.323355e+01  2.870609e-01 -1.043275e-01  2.870609e-01      BRANCH 1  8.400000e-01
+    12     8 -7.500538e+00  2.870609e-01    INFEASIBLE             -      FATHOMED  8.900000e-01
+    13     7 -7.500538e+00  2.870609e-01 -5.116850e+00  4.409732e-01      BRANCH 1  1.080000e+00
+    14     8 -5.116850e+00  2.870609e-01    INFEASIBLE             -      FATHOMED  1.130000e+00
+    15     7 -5.116850e+00  2.870609e-01    INFEASIBLE             -      FATHOMED  1.180000e+00
+    16     6 -4.111260e+00  2.870609e-01  2.344233e-01  2.771075e-01      BRANCH 1  1.260000e+00
+    17     7 -4.111260e+00  2.771075e-01  1.812934e-01  3.531119e-01      BRANCH 1  1.340000e+00
+    18     8 -1.043275e-01  2.771075e-01    INFEASIBLE             -      FATHOMED  1.380000e+00
+    19     7 -1.043275e-01  2.771075e-01    INFEASIBLE             -      FATHOMED  1.410000e+00
+    20     6  1.812934e-01  2.771075e-01    INFEASIBLE             -      FATHOMED  1.420000e+00
+    21     5  1.812934e-01  2.771075e-01    INFEASIBLE             -      FATHOMED  1.440000e+00
+    22     4  2.344233e-01  2.771075e-01  2.771074e-01             -      FATHOMED  1.490000e+00
+    23     3  2.344233e-01  2.771075e-01    INFEASIBLE             -      FATHOMED  1.500000e+00
+    24     2  2.428149e-01  2.771075e-01    INFEASIBLE             -      FATHOMED  1.510000e+00
+    25     1  2.428149e-01  2.771075e-01    INFEASIBLE             -      FATHOMED  1.530000e+00
+
+#  NORMAL TERMINATION: 1.530000 CPU SEC
+#  INCUMBENT VALUE:  2.771075e-01
+#  INCUMBENT POINT:  5.574788e+00 -4.000000e+00
+#  INCUMBENT FOUND AT NODE: 16
+#  TOTAL NUMBER OF NODES:   25
+#  MAXIMUM NODES IN STACK:  9
+
+ODE BOUNDER: TMMC   ORDER: 4  TM BOUNDER: LSB   RTOL=0.001  ATOL=0.001
+ INDEX STACK        RELAX         INC           LBD           UBD         ACTION      CUMUL TIME
+
+     1     1 -1.000000e+20  1.000000e+20 -8.038018e+01  3.517573e-01      BRANCH 1  2.200000e-01
+     2     2 -8.038018e+01  3.517573e-01 -4.739562e+01  2.771075e-01      BRANCH 0  2.500000e-01
+     3     3 -8.038018e+01  2.771075e-01 -6.037102e+01  3.517573e-01      BRANCH 0  3.000000e-01
+     4     4 -6.037102e+01  2.771075e-01 -9.150580e+00  3.517573e-01      BRANCH 1  3.600000e-01
+     5     5 -6.037102e+01  2.771075e-01 -1.970242e+01  3.658285e-01      BRANCH 1  4.000000e-01
+     6     6 -4.739562e+01  2.771075e-01 -1.793845e+01  2.771075e-01      BRANCH 0  4.400000e-01
+     7     7 -4.739562e+01  2.771075e-01 -3.828264e+00  3.571598e-01      BRANCH 1  4.800000e-01
+     8     8 -1.970242e+01  2.771075e-01    INFEASIBLE             -      FATHOMED  5.600000e-01
+     9     7 -1.970242e+01  2.771075e-01    INFEASIBLE             -      FATHOMED  5.900000e-01
+    10     6 -1.793845e+01  2.771075e-01  2.469537e-01  9.017317e-01      BRANCH 1  6.900000e-01
+    11     7 -1.793845e+01  2.771075e-01 -2.242600e-01  2.771075e-01      BRANCH 1  7.200000e-01
+    12     8 -9.150580e+00  2.771075e-01    INFEASIBLE             -      FATHOMED  8.000000e-01
+    13     7 -9.150580e+00  2.771075e-01 -6.560329e+00  4.443170e-01      BRANCH 0  8.300000e-01
+    14     8 -6.560329e+00  2.771075e-01    INFEASIBLE             -      FATHOMED  8.900000e-01
+    15     7 -6.560329e+00  2.771075e-01  3.618429e-02  4.534588e-01      BRANCH 1  9.900000e-01
+    16     8 -3.828264e+00  2.771075e-01  2.770967e-01             -      FATHOMED  1.080000e+00
+    17     7 -3.828264e+00  2.771075e-01  2.293414e-01  3.643936e-01      BRANCH 1  1.270000e+00
+    18     8 -2.242600e-01  2.771075e-01  2.729289e-01  2.771075e-01      BRANCH 1  1.360000e+00
+    19     9 -2.242600e-01  2.771075e-01    INFEASIBLE             -      FATHOMED  1.420000e+00
+    20     8  3.618429e-02  2.771075e-01    INFEASIBLE             -      FATHOMED  1.440000e+00
+    21     7  3.618429e-02  2.771075e-01    INFEASIBLE             -      FATHOMED  1.460000e+00
+    22     6  2.293414e-01  2.771075e-01    INFEASIBLE             -      FATHOMED  1.480000e+00
+    23     5  2.293414e-01  2.771075e-01    INFEASIBLE             -      FATHOMED  1.490000e+00
+    24     4  2.469537e-01  2.771075e-01    INFEASIBLE             -      FATHOMED  1.510000e+00
+    25     3  2.469537e-01  2.771075e-01    INFEASIBLE             -      FATHOMED  1.530000e+00
+    26     2  2.729289e-01  2.771075e-01  2.771074e-01             -      FATHOMED  1.590000e+00
+    27     1  2.729289e-01  2.771075e-01    INFEASIBLE             -      FATHOMED  1.610000e+00
+
+#  NORMAL TERMINATION: 1.610000 CPU SEC
+#  INCUMBENT VALUE:  2.771075e-01
+#  INCUMBENT POINT:  5.574788e+00 -4.000000e+00
+#  INCUMBENT FOUND AT NODE: 2
+#  TOTAL NUMBER OF NODES:   27
+#  MAXIMUM NODES IN STACK:  9
+

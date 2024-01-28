@@ -1,0 +1,5 @@
+                 DI    TM2+DI    TM3+DI    TM4+DI    TM5+DI      ELL    TM2+ELL   TM3+ELL    TM4+ELL    TM5+ELL     ELL    TM2+ELL   TM3+ELL    TM4+ELL    TM5+ELL
+FINAL TIME    0.3779   3.0475    5.3022    7.5748    9.8915     1.993    1.683     10.542       INF        INF     13.5487    INF       INF        INF        INF
+RHS EVAL                 728       839       954     1,041                           839        954      1,041       623      728       839        954      1,041
+CPU TIME (S)           0.714     1.364     2.510     4.631                         0.812      1.542      2.458     1.697    1.048     4.770     21.804     90.098
+

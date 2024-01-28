@@ -1,0 +1,66 @@
+/*!
+
+@mainpage GOLIB
+
+@author Benoit C. Chachuat <tt>(b.chachuat@imperial.ac.uk)</tt>
+@date 2006-2014
+@bug No known bugs.
+
+GOLIB provides a collection of C++ classes for global optimization and guaranteed parameter estimation of algebraic and dynamic models.
+
+On distribution, GOLIB should contain four directories: <tt>src</tt>, <tt>include</tt>, <tt>examples</tt>, and <tt>docs</tt>. The library comes with a Doxygen documentation, which can be accessed by opening the file <tt>docs/html/index.html</tt> with any html interpreter. Also, a number of simple examples is provided in the <tt>examples</tt> subdirectory that should help the user understand how to use the various C++ classes. GOLIB consists of header files only (no need to build/link a library), which can be found in the <tt>src</tt> directory.
+
+\section sec_GOinstall Installing GOLIB
+
+cd into the <tt>src</tt> directory, and type
+
+<tt>
+> make install
+</tt>
+
+to create symbolic links to the header files in the <tt>include</tt> directory. Note that the code should compile without warning using gcc version 4.6 or higher.
+
+In order to remove all symbolic links created in the <tt>include</tt> directory, type
+
+<tt>
+> make cleaninstall
+</tt>
+
+from the <tt>src</tt> directory.
+
+<b>Important Notes:</b>
+GOLIB relies on a number of third party libraries.
+- MC++ for bounding and relaxation of factorable functions
+- ODEBND for bounding of the solutions of parametric initial value problems in ODEs
+- Solution of polyhedral relaxations of factorable programs relies on either <A href="http://www-01.ibm.com/software/integration/optimization/cplex-optimizer/">CPLEX</A> or <A href="http://www.gurobi.com/">GUROBI</A>.
+- Numerical solution of NLP and IVP relies on the libraries <A href="https://projects.coin-or.org/Ipopt">IPOPT</A> and <A href="https://computation.llnl.gov/casc/sundials/description/description.html">SUNDIALS/CVODES</A>, respectively.
+.
+All these libraries must be installed prior to using GOLIB, and the paths to these libraries and header files are to be changed in the first section of the <tt>makeoptions.mk</tt> file in the <tt>src</tt> directory.
+
+\section sec_GOrun Running GOLIB
+
+Change into the <tt>examples</tt> directory, and select one of the subdirectories, e.g.
+
+<tt>
+> cd examples/MC-1D
+</tt>
+
+Type:
+
+<tt>
+> make
+</tt>
+
+at the command line, to create the executable file <tt>exm_1D</tt>. This executable can then be run by typing:
+
+<tt>
+> ./MC-1D
+</tt>
+
+This executable generate a file containing the relaxations and subgradients. These results can be displayed with the program <A href="http://www.gnuplot.info/">GNUPLOT</A> by typing:
+
+<tt>
+> gnuplot MC-1D.g
+</tt>
+
+*/

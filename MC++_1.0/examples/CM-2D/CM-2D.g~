@@ -1,0 +1,13 @@
+set xlabel 'x'
+set ylabel 'y'
+set hidden3d
+set view 74,13
+
+set key below
+
+splot 'CM-2D.out' u 1:2:3 tit 'Function' w l lt 1, \
+  '' u 1:2:4 tit 'Chebyshev model' w l lt 2, \
+  '' u 1:2:5 tit '' w l lt 2
+
+pause -1 "<ENTER> TO CONTINUE"  
+

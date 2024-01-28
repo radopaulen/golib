@@ -1,0 +1,35 @@
+ODE BOUNDER: TM   ORDER: 4  TM BOUNDER: LSB   RTOL=0.001  ATOL=0.001
+ INDEX STACK        RELAX         INC           LBD           UBD         ACTION      CUMUL TIME
+
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit http://projects.coin-or.org/Ipopt
+******************************************************************************
+
+     1     1 -1.000000e+20  1.000000e+20 -2.840510e+00  4.965441e-01      BRANCH 0  2.000000e-02
+     2     2 -2.840510e+00  4.965441e-01  4.965440e-01             -      FATHOMED  5.000000e-02
+     3     1 -2.840510e+00  4.965441e-01  4.965380e-01             -      FATHOMED  7.000000e-02
+
+#  NORMAL TERMINATION: 0.070000 CPU SEC
+#  INCUMBENT VALUE:  4.965441e-01
+#  INCUMBENT POINT:  4.070895e+00
+#  INCUMBENT FOUND AT NODE: 1
+#  TOTAL NUMBER OF NODES:   3
+#  MAXIMUM NODES IN STACK:  2
+
+ODE BOUNDER: TMMC   ORDER: 4  TM BOUNDER: LSB   RTOL=0.001  ATOL=0.001
+ INDEX STACK        RELAX         INC           LBD           UBD         ACTION      CUMUL TIME
+
+     1     1 -1.000000e+20  1.000000e+20 -2.840508e+00  4.965441e-01      BRANCH 0  1.000000e-02
+     2     2 -2.840508e+00  4.965441e-01  4.965440e-01             -      FATHOMED  4.000000e-02
+     3     1 -2.840508e+00  4.965441e-01  4.965380e-01             -      FATHOMED  8.000000e-02
+
+#  NORMAL TERMINATION: 0.080000 CPU SEC
+#  INCUMBENT VALUE:  4.965441e-01
+#  INCUMBENT POINT:  4.070895e+00
+#  INCUMBENT FOUND AT NODE: 1
+#  TOTAL NUMBER OF NODES:   3
+#  MAXIMUM NODES IN STACK:  2
+

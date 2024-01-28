@@ -1,0 +1,11 @@
+g++ -c  -g  -Wall -frounding-math -ffloat-store -m64 -fPIC -fexceptions -DIL_STD -I/home/bchachua/Programs/Devel/MC++/MC++_0.7/include -I/home/bchachua/Programs/ThirdParty/Profil-2.0.8/include -I/opt/filib++/include/ -I/opt/filib++/include/interval -I/opt/gurobi500/linux64/include -I/opt/ibm/ILOG/CPLEX_Studio124/cplex/include -I/opt/ibm/ILOG/CPLEX_Studio124/concert/include -o main.o main.cpp
+In file included from /home/bchachua/Programs/Devel/MC++/MC++_0.7/include/fprgurobi.h:5:0,
+                 from main.cpp:26:
+/home/bchachua/Programs/Devel/MC++/MC++_0.7/include/fprelax.h: In member function ‘bool mc::FPVar<T>::add_breakpt(double)’:
+/home/bchachua/Programs/Devel/MC++/MC++_0.7/include/fprelax.h:1008:49: error: ‘pFP’ was not declared in this scope
+/home/bchachua/Programs/Devel/MC++/MC++_0.7/include/fprelax.h:1019:29: error: ‘pFP’ was not declared in this scope
+/home/bchachua/Programs/Devel/MC++/MC++_0.7/include/fprelax.h:1027:29: error: ‘pFP’ was not declared in this scope
+/home/bchachua/Programs/Devel/MC++/MC++_0.7/include/fprelax.h: In member function ‘bool mc::FPVar<T>::add_breakpt(double) [with T = mc::Interval]’:
+main.cpp:106:21:   instantiated from here
+/home/bchachua/Programs/Devel/MC++/MC++_0.7/include/fprelax.h:1025:48: error: conversion from ‘std::_Rb_tree_const_iterator<double>’ to non-scalar type ‘std::set<double>::reverse_iterator’ requested
+make: *** [main.o] Error 1

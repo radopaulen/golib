@@ -1,0 +1,62 @@
+==8161== Memcheck, a memory error detector.
+==8161== Copyright (C) 2002-2007, and GNU GPL'd, by Julian Seward et al.
+==8161== Using LibVEX rev 1854, a library for dynamic binary translation.
+==8161== Copyright (C) 2004-2007, and GNU GPL'd, by OpenWorks LLP.
+==8161== Using valgrind-3.3.1, a dynamic binary instrumentation framework.
+==8161== Copyright (C) 2000-2007, and GNU GPL'd, by Julian Seward et al.
+==8161== For more details, rerun with: -v
+==8161== 
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Common Public License (CPL).
+         For more information visit http://projects.coin-or.org/Ipopt
+******************************************************************************
+
+This is Ipopt version 3.7.0, running with linear solver ma27.
+
+Number of nonzeros in equality constraint Jacobian...:       13
+Number of nonzeros in inequality constraint Jacobian.:       13
+Number of nonzeros in Lagrangian Hessian.............:        6
+
+Total number of variables............................:       10
+                     variables with only lower bounds:        0
+                variables with lower and upper bounds:       10
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:        4
+Total number of inequality constraints...............:        3
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:        3
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0  8.0000000e+00 1.99e+00 2.02e+00  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
+   1 -2.6958055e+00 4.57e-01 2.51e+00  -1.0 1.48e+00    -  3.33e-01 8.02e-01f  1
+
+Number of Iterations....: 1
+
+                                   (scaled)                 (unscaled)
+Objective...............:  -2.6958055489879911e+00   -2.6958055489879911e+00
+Dual infeasibility......:   2.5088424693488043e+00    2.5088424693488043e+00
+Constraint violation....:   4.1059735280009074e-01    4.1059735280009074e-01
+Complementarity.........:   1.9957966329804188e+02    1.9957966329804188e+02
+Overall NLP error.......:   1.9957966329804188e+02    1.9957966329804188e+02
+
+
+Number of objective function evaluations             = 2
+Number of objective gradient evaluations             = 2
+Number of equality constraint evaluations            = 2
+Number of inequality constraint evaluations          = 2
+Number of equality constraint Jacobian evaluations   = 2
+Number of inequality constraint Jacobian evaluations = 2
+Number of Lagrangian Hessian evaluations             = 1
+Total CPU secs in IPOPT (w/o function evaluations)   =      1.448
+Total CPU secs in NLP function evaluations           =      0.156
+
+EXIT: Maximum CPU time exceeded.
+==8161== 
+==8161== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 3 from 1)
+==8161== malloc/free: in use at exit: 0 bytes in 0 blocks.
+==8161== malloc/free: 5,102 allocs, 5,102 frees, 296,995 bytes allocated.
+==8161== For counts of detected errors, rerun with: -v
+==8161== All heap blocks were freed -- no leaks are possible.

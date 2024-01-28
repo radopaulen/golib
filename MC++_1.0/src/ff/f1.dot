@@ -1,0 +1,16 @@
+
+digraph G {
+  X2 [shape=box,fontname="Arial",color=red,peripheries=1];
+  X3 [shape=box,fontname="Arial",color=red,peripheries=1];
+  Z0 [shape=box,fontname="Arial",color=blue,peripheries=1];
+  Z0_op [shape=ellipse,fontname="Arial",fontsize=18,label=" x ",color=black];
+  Z0_op -> Z0;
+  X2 -> Z0_op;
+  X3 -> Z0_op;
+  X0 [shape=box,fontname="Arial",color=red,peripheries=1];
+  Z1 [shape=box,fontname="Arial",color=blue,peripheries=2];
+  Z1_op [shape=ellipse,fontname="Arial",fontsize=18,label=" - ",color=black];
+  Z1_op -> Z1;
+  Z0 -> Z1_op;
+  X0 -> Z1_op;
+}

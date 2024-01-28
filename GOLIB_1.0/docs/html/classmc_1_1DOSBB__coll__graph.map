@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$classmc_1_1SBB.html" title="Pure virtual base class for spatial branch&#45;and&#45;bound search." alt="" coords="32,101,139,131"/>
+<area shape="rect" id="node4" href="$structmc_1_1SBB_1_1Options.html" title="SBB options." alt="" coords="5,5,165,35"/>
+<area shape="rect" id="node6" href="$classmc_1_1DOSTRUCT.html" title="C++ base class for dynamic optimization problem formulation." alt="" coords="163,101,285,131"/>
+<area shape="rect" id="node8" href="$structmc_1_1DOSBB_1_1Stats.html" title="Structure holding current statistics." alt="" coords="309,101,504,131"/>
+<area shape="rect" id="node10" href="$structmc_1_1DOSBB_1_1Options.html" title="DOSBB options." alt="" coords="528,101,736,131"/>
+</map>

@@ -1,0 +1,233 @@
+
+______________________________________________________________________
+
+           GLOBAL NONLINEAR (NLP) OPTIMIZER IN MC++
+______________________________________________________________________
+
+SPATIAL BRANCH-AND-BOUND OPTIONS:
+
+  ABSOLUTE CONVERGENCE TOLERANCE                            1.0e-03
+  RELATIVE CONVERGENCE TOLERANCE                            1.0e-03
+  MAXIMUM NUMBER OF ITERATIONS (PARTITIONS)                 NO LIMIT
+  MAXIMUM CPU TIME (SEC)                                    1.0e+06
+  DISPLAY LEVEL                                             2
+  INTERNAL VALUE FOR INFINITY                               1.0e+20
+  UPDATE ENTIRE TREE AFTER AN INCUMBENT IMPROVEMENT?        Y
+  BRANCHING STRATEGY FOR NODE PARTITIONING                  OMEGA
+  BRANCHING TOLERANCE FOR VARIABLE AT BOUND                 1.00e-03
+  BRANCHING STRATEGY FOR VARIABLE SELECTION                 RGREL
+  INITIALIZATION THRESHOLD IN RELIABILITY BRANCHING         1
+  SCORE PARAMETER IN RELIABILITY BRANCHING                  0.17
+  USE CONSTRAINT PROPAGATION?                               N
+  USE REDUCTION CONSTRAINTS?                                Y
+  USE OPTIMIZATION-BASED DOMAIN REDUCTION?                  N
+  OPTIMIZATION-BASED REDUCTION MAX LOOPS                    4
+  LOOP THRESHOLD FOR OPTIMIZATION-BASED REDUCTION           20%
+  CUTS FROM TAYLOR MODELS                                   NONE
+  ORDER OF TAYLOR MODEL                                     4
+ _______________________________________________________________________
+
+NLP <- { 0NL 1NL 2NL 3NL 4NL 5L 6L }
+ INDEX STACK    CUMUL TIME        RELAX         INC   PARENT        UBD           LBD         ACTION  
+
+FPR:
+
+VARIABLES:
+  X0 <= [0,1]                                   
+  X1 <= [0,1]                                   
+  X2 <= [0,1]                                   
+  X3 <= [0,100]                                 
+  X4 <= [0,200]                                 
+  X5 <= [0,100]                                 
+  X6 <= [0,200]                                 
+
+NO AUXILIARY
+
+NO CUTS
+
+ VALID REDUCTION CONSTRAINTS:  MULTIPLIER VARIABLE <-> OPERATION
+  X3 <= [0,100]                                   <->  Z51 == Z26
+  X3 <= [0,100]                                   <->  X0 + X1
+  X3 <= [0,100]                                   <->  X1 + Z36
+  X3 <= [0,100]                                   <->  X2 + Z37
+  X3 <= [0,100]                                   <->  X2 + Z48
+  X3 <= [0,100]                                   <->  Z38 + Z39
+  X3 <= [0,100]                                   <->  Z49 + Z50
+  X3 <= [0,100]                                   <->  Z11 - Z3
+  X3 <= [0,100]                                   <->  Z12 - Z1
+  X3 <= [0,100]                                   <->  Z10 - Z5
+  X3 <= [0,100]                                   <->  X0 * Z35
+  X3 <= [0,100]                                   <->  X0 * Z4
+  X3 <= [0,100]                                   <->  X1 * Z2
+  X3 <= [0,100]                                   <->  X2 * Z0
+  X4 <= [0,200]                                   <->  Z51 == Z26
+  X4 <= [0,200]                                   <->  X0 + X1
+  X4 <= [0,200]                                   <->  X1 + Z36
+  X4 <= [0,200]                                   <->  X2 + Z37
+  X4 <= [0,200]                                   <->  X2 + Z48
+  X4 <= [0,200]                                   <->  Z38 + Z44
+  X4 <= [0,200]                                   <->  Z49 + Z50
+  X4 <= [0,200]                                   <->  Z6 - Z3
+  X4 <= [0,200]                                   <->  Z7 - Z1
+  X4 <= [0,200]                                   <->  Z0 - Z5
+  X4 <= [0,200]                                   <->  X0 * Z35
+  X4 <= [0,200]                                   <->  X0 * Z4
+  X4 <= [0,200]                                   <->  X1 * Z2
+  X4 <= [0,200]                                   <->  X2 * Z0
+Optimize a model with 229 rows, 105 columns and 613 nonzeros
+Presolve removed 167 rows and 90 columns
+Presolve time: 0.00s
+Presolved: 62 rows, 15 columns, 215 nonzeros
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+       0    4.9000000e+03   8.352500e+02   0.000000e+00      0s
+      15    5.5000000e+02   0.000000e+00   0.000000e+00      0s
+
+Solved in 15 iterations and 0.00 seconds
+Optimal objective  5.500000000e+02
+  frel = 550
+  prel(0) = 5.0000e-01
+  prel(1) = 2.5000e-01
+  prel(2) = 2.5000e-01
+  prel(3) = 5.0000e+01
+  prel(4) = 1.0000e+02
+  prel(5) = 5.0000e+01
+  prel(6) = 1.0000e+02
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit http://projects.coin-or.org/Ipopt
+******************************************************************************
+
+  floc = 4.5000e+02
+  ploc(0) = 0.0000e+00
+  ploc(1) = 5.0000e-01
+  ploc(2) = 5.0000e-01
+  ploc(3) = 0.0000e+00
+  ploc(4) = 1.0000e+02
+  ploc(5) = 6.4180e-09
+  ploc(6) = 1.0000e+02
+     1     1  0.000000e+00  1.000000e+20 -1.000000e+20     0  5.500000e+02  4.500000e+02       BRANCH0
+FPR:
+
+VARIABLES:
+  X0 <= [0.0000000000000000,0.5000000000000001] 
+  X1 <= [0,1]                                   
+  X2 <= [0,1]                                   
+  X3 <= [0,100]                                 
+  X4 <= [0,200]                                 
+  X5 <= [0,100]                                 
+  X6 <= [0,200]                                 
+
+NO AUXILIARY
+
+NO CUTS
+
+ VALID REDUCTION CONSTRAINTS:  MULTIPLIER VARIABLE <-> OPERATION
+  X3 <= [0,100]                                   <->  Z51 == Z26
+  X3 <= [0,100]                                   <->  X0 + X1
+  X3 <= [0,100]                                   <->  X1 + Z36
+  X3 <= [0,100]                                   <->  X2 + Z37
+  X3 <= [0,100]                                   <->  X2 + Z48
+  X3 <= [0,100]                                   <->  Z38 + Z39
+  X3 <= [0,100]                                   <->  Z49 + Z50
+  X3 <= [0,100]                                   <->  Z11 - Z3
+  X3 <= [0,100]                                   <->  Z12 - Z1
+  X3 <= [0,100]                                   <->  Z10 - Z5
+  X3 <= [0,100]                                   <->  X0 * Z35
+  X3 <= [0,100]                                   <->  X0 * Z4
+  X3 <= [0,100]                                   <->  X1 * Z2
+  X3 <= [0,100]                                   <->  X2 * Z0
+  X4 <= [0,200]                                   <->  Z51 == Z26
+  X4 <= [0,200]                                   <->  X0 + X1
+  X4 <= [0,200]                                   <->  X1 + Z36
+  X4 <= [0,200]                                   <->  X2 + Z37
+  X4 <= [0,200]                                   <->  X2 + Z48
+  X4 <= [0,200]                                   <->  Z38 + Z44
+  X4 <= [0,200]                                   <->  Z49 + Z50
+  X4 <= [0,200]                                   <->  Z6 - Z3
+  X4 <= [0,200]                                   <->  Z7 - Z1
+  X4 <= [0,200]                                   <->  Z0 - Z5
+  X4 <= [0,200]                                   <->  X0 * Z35
+  X4 <= [0,200]                                   <->  X0 * Z4
+  X4 <= [0,200]                                   <->  X1 * Z2
+  X4 <= [0,200]                                   <->  X2 * Z0
+Optimize a model with 229 rows, 105 columns and 613 nonzeros
+Presolve removed 166 rows and 89 columns
+Presolve time: 0.00s
+Presolved: 63 rows, 16 columns, 222 nonzeros
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+       0    4.9000000e+03   3.407125e+03   0.000000e+00      0s
+
+Solved in 19 iterations and 0.00 seconds
+Infeasible model
+     2     2  2.000100e-02  5.500000e+02  4.500000e+02     1    INFEASIBLE       SKIPPED        FATHOM
+FPR:
+
+VARIABLES:
+  X0 <= [0.5000000000000000,1.0000000000000000] 
+  X1 <= [0,1]                                   
+  X2 <= [0,1]                                   
+  X3 <= [0,100]                                 
+  X4 <= [0,200]                                 
+  X5 <= [0,100]                                 
+  X6 <= [0,200]                                 
+
+NO AUXILIARY
+
+NO CUTS
+
+ VALID REDUCTION CONSTRAINTS:  MULTIPLIER VARIABLE <-> OPERATION
+  X3 <= [0,100]                                   <->  Z51 == Z26
+  X3 <= [0,100]                                   <->  X0 + X1
+  X3 <= [0,100]                                   <->  X1 + Z36
+  X3 <= [0,100]                                   <->  X2 + Z37
+  X3 <= [0,100]                                   <->  X2 + Z48
+  X3 <= [0,100]                                   <->  Z38 + Z39
+  X3 <= [0,100]                                   <->  Z49 + Z50
+  X3 <= [0,100]                                   <->  Z11 - Z3
+  X3 <= [0,100]                                   <->  Z12 - Z1
+  X3 <= [0,100]                                   <->  Z10 - Z5
+  X3 <= [0,100]                                   <->  X0 * Z35
+  X3 <= [0,100]                                   <->  X0 * Z4
+  X3 <= [0,100]                                   <->  X1 * Z2
+  X3 <= [0,100]                                   <->  X2 * Z0
+  X4 <= [0,200]                                   <->  Z51 == Z26
+  X4 <= [0,200]                                   <->  X0 + X1
+  X4 <= [0,200]                                   <->  X1 + Z36
+  X4 <= [0,200]                                   <->  X2 + Z37
+  X4 <= [0,200]                                   <->  X2 + Z48
+  X4 <= [0,200]                                   <->  Z38 + Z44
+  X4 <= [0,200]                                   <->  Z49 + Z50
+  X4 <= [0,200]                                   <->  Z6 - Z3
+  X4 <= [0,200]                                   <->  Z7 - Z1
+  X4 <= [0,200]                                   <->  Z0 - Z5
+  X4 <= [0,200]                                   <->  X0 * Z35
+  X4 <= [0,200]                                   <->  X0 * Z4
+  X4 <= [0,200]                                   <->  X1 * Z2
+  X4 <= [0,200]                                   <->  X2 * Z0
+Optimize a model with 229 rows, 105 columns and 613 nonzeros
+Presolve removed 162 rows and 90 columns
+Presolve time: 0.00s
+Presolved: 67 rows, 15 columns, 232 nonzeros
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+       0    3.0030010e+03   5.269252e+03   0.000000e+00      0s
+
+Solved in 17 iterations and 0.00 seconds
+Infeasible model
+     3     1  2.800200e-02  5.500000e+02  4.500000e+02     1    INFEASIBLE       SKIPPED        FATHOM
+
+#  NORMAL TERMINATION: 0.032002 CPU SEC  (LBD:25.0%  UBD:75.0%)
+#  INCUMBENT VALUE:  4.500000e+02
+#  INCUMBENT POINT:  0.000000e+00  5.000000e-01  5.000000e-01  0.000000e+00
+#                    1.000000e+02  6.418000e-09  1.000000e+02
+#  INCUMBENT FOUND AT NODE: 1
+#  TOTAL NUMBER OF NODES:   3
+#  MAXIMUM NODES IN STACK:  2
+
+
+  Total Time: 0.0
+  NLPLOC: 25.0%    FPREL:  37.5%    REDUC:  37.5%    NLPREL: 0.0%

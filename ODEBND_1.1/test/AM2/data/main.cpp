@@ -1,0 +1,56 @@
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <utility>
+#include <string>
+#include <math.h>
+
+const double tol = 1e-4;
+const double dt  = 2./24.;
+const double dtL = floor(dt/tol)*tol;
+const double dtU = ceil(dt/tol)*tol;
+
+int main()
+{
+
+  std::string fname( "inra_psfb_020404_CH4Frac" );
+  std::cout << fname.c_str() << std::endl;
+  std::ostringstream ifname; ifname << fname << "_raw.txt";
+  std::ostringstream ofname; ofname << fname << "_sampled.txt";
+  std::string header;
+  std::vector< std::pair<double,double> > data;
+  std::cout << ifname.str().c_str() << std::endl;
+  std::cout << ofname.str().c_str() << std::endl;
+
+  std::ifstream if_CODs( ifname.str().c_str(), std::ios::in );
+  if( if_CODs ){
+    std::getline( if_CODs, header );
+    std::cout << header.c_str() << std::endl;
+  }
+  double t1 = 0.;
+  while( if_CODs ){
+    double t, S1;
+    if_CODs >> t >> S1;
+    static double t0 = t;
+    if( t-t0 >= t1+dtL && t-t0 <= t1+dtU ){
+      data.push_back(std::make_pair(t-t0,S1));
+      std::cout << t-t0 << "  " << S1 << std::endl;
+      t1 += dt;
+    }
+    else if( t-t0 > t1+dtU )
+      t1 += dt;
+  }
+  if_CODs.close();
+
+  std::ofstream of_CODs( ofname.str().c_str(), std::ios::out );
+  std::vector< std::pair<double,double> >::iterator it = data.begin();
+  of_CODs << header.c_str() << std::endl;
+  of_CODs << std::scientific << std::setprecision(5) << std::right;
+  for( ; it != data.end(); ++it )
+    of_CODs << std::setw(14) << (*it).first << std::setw(14) << (*it).second << std::endl;
+  of_CODs.close();
+
+  return 0;
+}
