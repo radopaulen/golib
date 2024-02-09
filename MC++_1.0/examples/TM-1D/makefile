@@ -12,7 +12,7 @@ include $(PATH_MC)/src/makeoptions.mk
 #####
 
 $(EXE) : $(OBJS)
-	$(LINK) $(PROF) $(FLAGS_LINK) -o $(EXE) $(OBJS) $(LIB_MC) $(LIB_PROFIL) $(LIB_FILIB) $(LIB_LAPACK)
+	$(LINK) $(PROF) $(FLAGS_LINK) -no-pie -o $(EXE) $(OBJS) $(LIB_MC) $(LIB_PROFIL) $(LIB_FILIB) $(LIB_LAPACK)
        
 main.o: main.cpp
 	$(CPP) -c $(PROF) $(FLAGS_CPP) $(INC_MC) $(INC_FADBAD) $(INC_PROFIL) $(INC_FILIB) -o main.o main.cpp
