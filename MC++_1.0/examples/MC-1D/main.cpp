@@ -1,7 +1,7 @@
 #define TEST_EXP2	// <-- select test function here
 const int NX = 500;	// <-- select discretization here
 #define SAVE_RESULTS    // <-- specify whether to save results to file
-#define USE_PROFIL	// <-- specify to use PROFIL for interval arithmetic
+#undef USE_PROFIL	// <-- specify to use PROFIL for interval arithmetic
 #undef USE_FILIB	// <-- specify to use FILIB++ for interval arithmetic
 
 ////////////////////////////////////////////////////////////////////////
